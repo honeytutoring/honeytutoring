@@ -1,0 +1,17 @@
+{% block content %}
+    <h1>HELLO HONEY TUTORING</h1>
+        {% if user.is_authenticated %}
+            HI {{ user.username }}
+            <p><a href="{% url 'logout' %}">logout</a></p>
+            <p><a href="{% url 'accounts:passwordreset' %}">reset password</a></p>
+        {% else %}
+            <br>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+            <input type="submit" value="login" />
+            </form>
+            <p>아이디가 없으신가요? <a href="{% url 'accounts:signup' %}">회원가입하러가기</a></p>
+        {% endif %}
+
+{% endblock %}
