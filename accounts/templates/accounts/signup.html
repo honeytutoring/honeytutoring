@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form method="post" action="{% url 'accounts:done' %}">
+    {% csrf_token %}
+
+            {{ form.as_p }}
+
+{#        {% for field in form %}#}
+{#            <div>#}
+{#                <label for="id_{{ field.html_name }}">{{ field.label }}</label>#}
+{#                <input name="{{ field.html_name }}" id="{{ field.id_for_label }}" type="{{ field.field.widget.input_type }}" value="{{ field.value|default_if_none:'' }}">#}
+{#                {% for error in field.error %}#}
+{#                    <label for="{{ field.id_for_label }}">{{ error }}</label>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        {% endfor %}#}
+    <button type="submit">가입하기</button>
+    </form>
+{% endblock %}
