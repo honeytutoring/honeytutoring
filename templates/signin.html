@@ -1,10 +1,8 @@
 {% block content %}
-    <h1>HELLO HONEY TUTORING</h1>
         {% if user.is_authenticated %}
             HI {{ user.username }}
             <p><a href="{% url 'signout' %}">logout</a></p>
             <p><a href="{% url 'accounts:passwordreset' %}">reset password</a></p>
-            <a href="{% url 'notice:post_index' %}">공지사항</a>
         {% else %}
             <br>
             <form method="post" action="{% url 'home' %}">
@@ -14,16 +12,5 @@
             </form>
             <p>아이디가 없으신가요? <a href="{% url 'accounts:signup' %}">회원가입하러가기</a></p>
         {% endif %}
-
-
-{#    {% if user.is_authenticated %}#}
-{#    Hi {{ user.username }}!#}
-{#    <p><a href="{% url 'signout' %}">logout</a></p>#}
-{#    {% else %}#}
-{#    <p>You are not logged in</p>#}
-{#    <a href="{% url 'home' %}">login</a>#}
-{#    {% endif %}#}
-{#    <br>#}
-{#    <a href="{% url 'notice:post_index' %}">공지사항</a>#}
 
 {% endblock %}

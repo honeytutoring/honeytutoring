@@ -12,20 +12,17 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 
 
-class HomeView(FormView):
+class HomeView(LoginView):
     template_name = 'home.html'
     form_class = CostomizedAutenticationForm
 
 
-class Login_View(LoginView):
-    template_name = 'index.html'
+class SignInView(FormView):
+    template_name = 'signin.html'
     form_class = CostomizedAutenticationForm
+    success_url = reverse_lazy('home')
 
 
-class Loggedout_View(LogoutView):
-    template_name = 'accounts/logout.html'
+class SignOutView(LogoutView):
+    template_name = 'accounts/signout.html'
 
-
-class IndexView(TemplateView):
-
-    template_name = 'index.html'
