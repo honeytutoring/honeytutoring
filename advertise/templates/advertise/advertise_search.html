@@ -1,0 +1,17 @@
+<h1>검색 페이지</h1>
+
+
+
+<form method="GET" action="">
+    <input type='text' name='search' value='{{request.GET.search}}' placeholder="찾으시는 선생님이 있으신가요?">
+    <input class="button" type='submit' value="검색">
+</form>
+
+{%if object_list%}
+    {% for search in object_list %}
+        <li><a href="{% url 'advertise:detail' list.id%}">{{list.user}}</a></li>
+    {% endfor %}
+{% else %}
+    <p>검색 결과가 없습니다.</p>
+{% endif %}
+
