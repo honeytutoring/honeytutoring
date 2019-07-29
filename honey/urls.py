@@ -16,12 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from honey.views import *
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
     path('logout/', Loggedout_View.as_view(), name='logout'),
     path('index/', Login_View.as_view(), name='login'),
-    path('accounts/', include('accounts.urls', namespace='accounts'))
-
+    path('accounts/', include('accounts.urls', namespace = 'accounts')),
+    path('advertise/', include('advertise.urls', namespace='advertise')),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
