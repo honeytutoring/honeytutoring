@@ -1,0 +1,8 @@
+<h1>디테일 페이지</h1>
+{{object.title}}
+{{object.region}}
+{{object.subject}}
+{{object.content}}
+<a href = "{% url 'advertise:update' post.id%}">수정하기</a>
+<a href = "{% url 'advertise:delete' post.id%}">삭제하기</a>
+<a href = "{% url 'advertise:main'%}">목록으로</a>
