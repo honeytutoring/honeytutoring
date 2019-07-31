@@ -5,6 +5,7 @@
             <p><a href="{% url 'signout' %}">logout</a></p>
             <p><a href="{% url 'accounts:passwordreset' %}">reset password</a></p>
             <a href="{% url 'notice:post_index' %}">공지사항</a>
+
         {% else %}
             <br>
             <form method="post" action="{% url 'home' %}">

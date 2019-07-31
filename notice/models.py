@@ -14,13 +14,13 @@ class Posts(models.Model):
     class Meta:
         verbose_name = 'post'
         verbose_name_plural = 'posts'
-        ordering = ('-create_date', )
+        ordering = ['-create_date']
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('notice:post_detail')
+        return reverse('notice:post_detail', kwargs={'pk': self.pk})
 
     def get_previous_post(self):
         return self.get_previous_by_modify_date()
