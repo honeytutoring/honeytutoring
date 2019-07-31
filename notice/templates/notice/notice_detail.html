@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    {{ posts.title }}
+    <br>
+    {{ posts.description }}
+    <br>
+    {{ posts.content }}
+    <br>
+    <input class="btn btn-success" type="button" value="수정" onclick="location.href='{% url 'notice:post_update' posts.id %}'">
+    <input class="btn btn-success" type="button" value="삭제" onclick="location.href='{% url 'notice:post_delete' posts.id%}'">
+{% endblock %}

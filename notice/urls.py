@@ -5,7 +5,8 @@ app_name = 'notice'
 
 urlpatterns = [
     path('index/', NoticeIndexView.as_view(), name='post_index'),
-    path('detail/<int:id>/', NoticeDetailView.as_view(), name='post_detail'),
-    path('writing/', NoticeWritingView.as_view(), name='post_writing'),
-    path('create/', NoticeRedirectView.as_view(), name='post_create'),
+    path('index/<int:pk>/', NoticeDetailView.as_view(), name='post_detail'),
+    path('create/', NoticeCreateView.as_view(), name='post_create'),
+    path('index/<int:pk>/update', NoticeUpdateView.as_view(), name='post_update'),
+    path('index/<int:pk>/delete', NoticeDeleteView.as_view(), name='post_delete'),
 ]

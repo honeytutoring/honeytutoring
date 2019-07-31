@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-    <a href="{% url 'notice:post_writing' %}">작성하기</a>
+{#    <input class="btn btn-success" type="button" value="삭제" onclick="location.href='{% url 'notice:post_delete' posts.id %}'">#}
+    <input class="btn btn-success" type="button" value="작성하기" onclick="location.href='{% url 'notice:post_create'%}'">
     {% if posts %}
     <ul>
         {% for post in posts %}
