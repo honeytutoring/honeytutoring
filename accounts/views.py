@@ -1,12 +1,8 @@
-from django.shortcuts import render,HttpResponseRedirect, reverse
-from django.contrib.sites.shortcuts import get_current_site
-from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
 from django.views.generic import TemplateView, FormView, RedirectView
-from django.contrib.auth import logout as auth_logout
 from django.views.generic.edit import CreateView, UpdateView
 from .forms import CreateUserForm
 from .models import Users
+from .forms import CreateUserForm, AccountUpdateForm
 from django.urls import reverse_lazy
 
 
@@ -29,7 +25,8 @@ class UpdateUserView(UpdateView):
 #     pass
 
 
-# class AccountUpdateView(UpdateView):
-#     template_name = 'accounts/account_update.html'
-#     form_class = AccountUpdateForm
-#     success_url = reverse_lazy('accounts')
+class AccountUpdateView(UpdateView):
+    template_name = 'accounts/account_update.html'
+    form_class = AccountUpdateForm
+    success_url = reverse_lazy('accounts:account_update')
+
