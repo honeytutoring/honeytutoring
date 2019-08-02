@@ -6,6 +6,7 @@ from django.views.generic import TemplateView, FormView, RedirectView
 from django.contrib.auth import logout as auth_logout
 from django.views.generic.edit import CreateView, UpdateView
 from .forms import CreateUserForm
+from .models import Users
 from django.urls import reverse_lazy
 
 
@@ -18,9 +19,14 @@ class CreateUserView(CreateView):
 class CreateDoneUserView(TemplateView):
     template_name = 'accounts/signup_done.html'
 
+class UpdateUserView(UpdateView):
+    template_name = 'accounts/account_update.html'
+    form_class = CreateUserForm
+    model = Users
+    success_url = reverse_lazy('home')
 
-class PasswordResetView(TemplateView):
-    pass
+# class PasswordResetView(TemplateView):
+#     pass
 
 
 # class AccountUpdateView(UpdateView):
