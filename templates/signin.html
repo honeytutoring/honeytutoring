@@ -2,7 +2,8 @@
         {% if user.is_authenticated %}
             HI {{ user.username }}
             <p><a href="{% url 'signout' %}">logout</a></p>
-            <p><a href="{% url 'accounts:passwordreset' %}">reset password</a></p>
+            {% comment %} <p><a href="{% url 'accounts:passwordreset' %}">reset password</a></p> {% endcomment %}
+            <p><a href="{% url 'accounts:edit' user.id %}">내 정보 수정하기</a></p>
         {% else %}
             <br>
             <form method="post" action="{% url 'home' %}">
