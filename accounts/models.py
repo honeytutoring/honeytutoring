@@ -3,6 +3,14 @@ from django.contrib.auth.models import AbstractUser, UserManager
 from django.shortcuts import reverse
 
 
+class University(models.Model):
+    university_title = models.CharField(max_length=20, blank=False, default='')
+    university_email = models.EmailField(blank=True)
+
+    def __str__(self):
+        return self.university_title
+
+
 class Users(AbstractUser):
 
     email = models.EmailField(blank=True)
@@ -20,10 +28,7 @@ class Users(AbstractUser):
         (TYPE_PARENT, '학부모'),
     )
     user_type = models.CharField(max_length=1, choices=USER_TYPE_OPTION, blank=True, default='')
+    university = models.ForeignKey(University, on_delete=models.CASCADE)
 
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
-
-    # def get_absolute_url(self):
-    #     return reverse('accounts:done')
-
