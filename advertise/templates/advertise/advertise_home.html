@@ -9,8 +9,9 @@
 <h1>메인 홍보 페이지</h1>
 
 
-<form method="GET" action="{% url 'advertise:search' %}">
-    <input type='text' name="search" placeholder="찾으시는 선생님이 있으신가요?">
+<form method="post" action="{% url 'advertise:search' %}">
+    {% csrf_token %}
+    <input type='text' name="search_word" placeholder="찾으시는 선생님이 있으신가요?">
     <input class="button" type='submit' value="검색">
 </form>
     
@@ -52,7 +53,7 @@
 <p>
     {%if object_list%}
     {% for list in object_list %}
-        <li><a href="{% url 'advertise:detail' list.id%}">{{list.title}}</a></li>
+        <li><a href="{% url 'advertise:detail' list.id%}">{{ list.title }}{{ list.author }}{{ list.created_date }}</a></li>
     {% endfor %}
     {%else%}
     <p>등록된 글이 없습니다.</p>

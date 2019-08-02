@@ -1,31 +1,38 @@
 from django.shortcuts import render
+from django.db.models import Q
 from django.views.generic import TemplateView, ListView, DetailView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from .forms import UploadFileForm
+from django.views.generic.edit import CreateView, DeleteView, UpdateView, FormView
+from .forms import UploadFileForm, PostSearchForm
 from .models import Post
 from django.urls import reverse_lazy
 # Create your views here.
 
 
-class PostListView(ListView):
+class AdvertiseIndexView(ListView):
     template_name = 'advertise/advertise_home.html'
     model = Post
 
 
-class SearchListView(ListView):
+class AdvertiseSearchFormView(FormView):
     template_name = 'advertise/advertise_search.html'
-    model = Post
+    form_class = PostSearchForm
 
-    def get_queryset(self):
-        query = self.request.GET.get('search')
-        if query:
-            object_list = self.model.objects.filter(title__icontains=query)
-        else:
-            object_list = self.model.objects.none()
-        return object_list
+    def form_valid(self, form):
+        schWord = '{}'.format(self.request.POST.get('search_word'))
+        post_list = Post.objects.filter(Q(content__icontains=schWord)
+                                        |Q(title__icontains=schWord)
+                                        |Q(region__area__icontains=schWord)
+                                        |Q(subject__subject_title__icontains=schWord))
+        context = {
+            'form': form,
+            'search_term': schWord,
+            'object_list': post_list    
+            }
+
+        return render(self.request, self.template_name, context)
 
 
-class RegionListView(ListView):
+class AdvertiseRegionIndexView(ListView):
     template_name = 'advertise/advertise_home.html'
     model = Post
     
@@ -59,24 +66,26 @@ class SubjectListView(ListView):
             return object_list
 
 
-class PostDetailView(DetailView):
+class AdvertiseDetailView(DetailView):
     model = Post
     template_name = 'advertise/post_detail.html'
 
 
-class PostCreateView(CreateView):
+class AdvertiseCreateView(CreateView):
+    template_name = 'advertise/post_form.html'
     form_class = UploadFileForm
     model = Post
-    template_name = 'advertise/post_form.html'
+    success_url = reverse_lazy('advertise:index')
 
 
-class PostUpdateView(UpdateView):
+class AdvertiseUpdateView(UpdateView):
     model = Post
     template_name = 'advertise/post_update.html'
     form_class = UploadFileForm
+    success_url = reverse_lazy('advertise:index')
 
 
-class PostDeleteView(DeleteView):
+class AdvertiseDeleteView(DeleteView):
     template_name = 'advertise/post_confirm_delete.html'
     model = Post
-    success_url = reverse_lazy('advertise:main')
+    success_url = reverse_lazy('advertise:index')
