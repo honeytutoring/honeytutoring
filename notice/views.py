@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView, FormView, Upd
 from .models import *
 from .forms import *
 from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 class NoticeIndexView(ListView):
@@ -10,6 +11,10 @@ class NoticeIndexView(ListView):
     model = Posts
     paginate_by = 10
     context_object_name = 'posts'
+    ordering = ['-create_date', ]
+
+    def get_ordering(self):
+        return self.ordering
 
 
 class NoticeDetailView(DetailView):
@@ -17,21 +22,24 @@ class NoticeDetailView(DetailView):
     model = Posts
 
 
-class NoticeRedirectView(CreateView):
+class NoticeCreateView(SuccessMessageMixin, CreateView):
+    template_name = 'notice/notice_writing.html'
+    success_message = "article was created successfully"
     model = Posts
     form_class = PostForm
     success_url = reverse_lazy('notice:post_index')
 
 
-class NoticeWritingView(FormView):
-    template_name = 'notice/notice_writing.html'
+class NoticeUpdateView(SuccessMessageMixin, UpdateView):
+    success_message = "Article was update successfully"
+    model = Posts
     form_class = PostForm
+    template_name_suffix = '_update'
+    success_url = reverse_lazy('notice:post_index')
 
 
-class NoticeUpdateView(UpdateView):
-    pass
-
-
-class NoticeDelteView(DeleteView):
-    pass
-
+class NoticeDeleteView(SuccessMessageMixin, DeleteView):
+    template_name_suffix = '_delete'
+    model = Posts
+    success_message = "%(name)s was deleted successfully"
+    success_url = reverse_lazy('notice:post_index')

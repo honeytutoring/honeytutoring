@@ -10,6 +10,8 @@ class CreateUserForm(UserCreationForm):
         model = Users
         fields = (
             'username',
+            'first_name',
+            'last_name',
             'email',
             'password1',
             'password2',
@@ -23,3 +25,20 @@ class CreateUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+# class AccountUpdateForm(forms.ModelForm):
+#
+#     class Meta:
+#         model = Users
+#         fields = (
+#             'username',
+#             'first_name',
+#             'last_name',
+#             'email',
+#             'password1',
+#             'password2',
+#             'sex',
+#             'user_type',
+#             'university',
+#         )

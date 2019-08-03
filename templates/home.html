@@ -1,10 +1,13 @@
 {% block content %}
     <h1>HELLO HONEY TUTORING</h1>
         {% if user.is_authenticated %}
-            HI {{ user.username }}
+            <a href="">HI {{ user.username }}</a>
             <p><a href="{% url 'signout' %}">logout</a></p>
-            <p><a href="{% url 'accounts:passwordreset' %}">reset password</a></p>
+            {% comment %} <p><a href="{% url 'accounts:passwordreset' %}">reset password</a></p> {% endcomment %}
+            <p><a href = "{% url 'accounts:edit' user.id %}"> 내 정보 수정하기 </a></p>
             <a href="{% url 'notice:post_index' %}">공지사항</a>
+            <br>
+            <a href="{% url 'advertise:index' %}">홍보게시판</a>
         {% else %}
             <br>
             <form method="post" action="{% url 'home' %}">
