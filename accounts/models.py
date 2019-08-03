@@ -28,7 +28,7 @@ class Users(AbstractUser):
         (TYPE_PARENT, '학부모'),
     )
     user_type = models.CharField(max_length=1, choices=USER_TYPE_OPTION, blank=True, default='')
-    university = models.ForeignKey(University, on_delete=models.CASCADE)
+    university = models.ForeignKey(University, on_delete=models.CASCADE, null=True)
 
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
