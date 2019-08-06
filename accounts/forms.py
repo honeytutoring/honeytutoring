@@ -1,4 +1,6 @@
-from accounts.models import Users
+from django.contrib.auth import authenticate
+
+from accounts.models import Users, Teacher, Student
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
@@ -13,32 +15,52 @@ class CreateUserForm(UserCreationForm):
             'first_name',
             'last_name',
             'email',
-            'password1',
-            'password2',
             'sex',
             'user_type',
         )
 
+    def __init__(self, request=None, *args, **kwargs):
+        self.request = request
+        super(CreateUserForm, self).__init__(*args, **kwargs)
+
     def save(self, commit=True):
-        user = super(CreateUserForm, self).save(commit=False)
-        user.email = self.cleaned_data['email']
+        ret = super(CreateUserForm, self).save(commit)
         if commit:
-            user.save()
-        return user
+            self.user = authenticate(
+                self.request,
+                username=self.cleaned_data.get('username'),
+                password=self.cleaned_data.get('password2')
+            )
+
+        return ret
 
 
-# class AccountUpdateForm(forms.ModelForm):
-#
-#     class Meta:
-#         model = Users
-#         fields = (
-#             'username',
-#             'first_name',
-#             'last_name',
-#             'email',
-#             'password1',
-#             'password2',
-#             'sex',
-#             'user_type',
-#             'university',
-#         )
+class TeacherForm(forms.ModelForm):
+    class Meta:
+        model = Teacher
+        exclude = ('user',)
+        fields = '__all__'
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(TeacherForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        self.instance.user = self.user
+        return super(TeacherForm, self).save(commit=commit)
+
+
+class StudentForm(forms.ModelForm):
+
+    class Meta:
+        model = Student
+        exclude = ('user',)
+        fields = '__all__'
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(StudentForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        self.instance.user = self.user
+        return super(StudentForm, self).save(commit=commit)

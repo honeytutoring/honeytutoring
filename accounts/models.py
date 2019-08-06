@@ -1,34 +1,45 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.contrib.auth.models import AbstractUser, UserManager
-from django.shortcuts import reverse
-
-
-class University(models.Model):
-    university_title = models.CharField(max_length=20, blank=False, default='')
-    university_email = models.EmailField(blank=True)
-
-    def __str__(self):
-        return self.university_title
 
 
 class Users(AbstractUser):
-
     email = models.EmailField(blank=True)
     phone_number = models.CharField(max_length=11, blank=True)
-    GENDER_MAIL = 'M'
-    GENDER_FEMAIL = 'W'
-    GENDER_OPTION = ((GENDER_MAIL, '남성'), (GENDER_FEMAIL, '여성'))
-    sex = models.CharField(max_length=1, choices=GENDER_OPTION, blank=True, default='')
-    TYPE_TEACHER = 'T'
-    TYPE_STUDENT = 'S'
-    TYPE_PARENT = 'P'
-    USER_TYPE_OPTION = (
-        (TYPE_TEACHER, '선생님'),
-        (TYPE_STUDENT, '학생'),
-        (TYPE_PARENT, '학부모'),
+    GENDER_MAIL, GENDER_FEMAIL = 0, 1
+    GENDER_OPTION = (
+        (GENDER_MAIL, '남성'),
+        (GENDER_FEMAIL, '여성')
     )
-    user_type = models.CharField(max_length=1, choices=USER_TYPE_OPTION, blank=True, default='')
-    university = models.ForeignKey(University, on_delete=models.CASCADE, null=True)
+    sex = models.SmallIntegerField(choices=GENDER_OPTION, null=True)
+    USER_TEACHER, USER_STUDENT, USER_PARENT = 0, 1, 2
+    USER_TYPE = (
+        (USER_TEACHER, '선생님'),
+        (USER_STUDENT, '학생'),
+        (USER_PARENT, '학부모'),
+    )
+    user_type = models.SmallIntegerField(choices=USER_TYPE, null=True)
 
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
+
+
+class Teacher(models.Model):
+    user = models.OneToOneField('accounts.Users', on_delete=models.CASCADE, related_name='teacher')
+    university = models.CharField(max_length=20)
+    subjects = models.CharField(max_length=20)
+    age = models.PositiveSmallIntegerField(default=0)
+
+    def __str__(self):
+        return self.user.first_name
+
+
+class Student(models.Model):
+    user = models.OneToOneField('accounts.Users', on_delete=models.CASCADE, related_name='student')
+    school = models.CharField(max_length=15)
+    year = models.CharField(max_length=5)
+
+    def __str__(self):
+        return self.user.first_name
+
+
+
