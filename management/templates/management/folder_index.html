@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <a href="{% url 'management:create' %}">만들기</a>
+
+    {% for class in object_list.all %}
+        <li><a href="{% url 'management:detail' class.id %}">{{ class.class_name }}</a></li>
+    {% endfor %}
+{% endblock %}

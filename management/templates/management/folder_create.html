@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="field-input">
+            <label class="col-md-3" for="id_class_name">Class 이름</label> <input class="col-md-9" type="text" name="class_name" maxlength="15" required="" id="id_class_name">
+        </div>
+        <div class="field-input">
+            <label class="col-md-3" for="id_description">요약</label> <input class="col-md-9" type="text" name="description" maxlength="13" required="" id="id_description">
+        </div>
+        <div class="field-input">
+            <label class="col-md-3" for="subject">과목</label> <input class="col-md-9" type="text" name="subject" required="" id="id_description">
+        </div>
+        <div class="field-input">
+            <label class="col-md-3" for="id_etc">이메일</label> <input class="col-md-9" type="text" name="etc" maxlength="254" id="id_etc">
+        </div>
+        <form method="post" action="{% url 'management:check' %}">
+            <div class="field-input">
+                <label class="col-md-3" for="id_student_id">학생 ID</label> <input class="col-md-9" type="text" name="student_id" maxlength="150" autofocus="" required="" id="id_student_id">
+                <button type="submit">인증</button>
+            </div>
+
+        </form>
+        <div class="field-input">
+            <label class="col-md-3" for="id_parent_id">학부모 ID</label> <input class="col-md-9" type="text" name="parent_id" required="" id="id_parent_id">
+        </div>
+        <div class="row">
+            <button type="submit" class="pull-right">제출</button>
+    </form>
+{% endblock %}
