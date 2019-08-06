@@ -1,18 +1,27 @@
-from django.shortcuts import render
 from django.db.models import Q
-from django.db.models.query import QuerySet
-from django.core.exceptions import ImproperlyConfigured
-from django.views.generic import TemplateView, ListView, DetailView
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView, FormView
+from accounts.models import Users
+from region.models import Region
 from .forms import UploadFileForm, PostSearchForm
 from .models import Post
-from django.urls import reverse_lazy
-# Create your views here.
 
 
 class AdvertiseIndexView(ListView):
     template_name = 'advertise/advertise_home.html'
     model = Post
+
+    def get(self, request, *args, **kwargs):
+        return super(AdvertiseIndexView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(AdvertiseIndexView, self).get_context_data(object_list=object_list, **kwargs)
+        context['user_sex_option'] = Users.GENDER_OPTION
+        context['regions'] = Region.objects.all()
+
+        return context
 
 
 class AdvertiseSearchFormView(FormView):
@@ -25,6 +34,8 @@ class AdvertiseSearchFormView(FormView):
                                         |Q(title__icontains=schWord)
                                         |Q(region__area__icontains=schWord)
                                         |Q(subject__subject_title__icontains=schWord))
+        # Post.objects.filter(region__in=[1,2,3,4])
+
         context = {
             'form': form,
             'search_term': schWord,
@@ -34,46 +45,15 @@ class AdvertiseSearchFormView(FormView):
         return render(self.request, self.template_name, context)
 
 
-class AdvertiseRegionIndexView(ListView):
-    template_name = 'advertise/advertise_home.html'
-    model = Post
-
-    # def get_queryset(self):
-    #     filter_word =
-    #     if self.model is not None:
-    #         queryset = self.model.objects.filter(region__area__icontains=filter_word)
-    #     else:
-    #         raise ImproperlyConfigured(
-    #             "%(cls)s is missing a QuerySet. Define "
-    #             "%(cls)s.model, %(cls)s.queryset, or override "
-    #             "%(cls)s.get_queryset()." % {
-    #                 'cls': self.__class__.__name__
-    #             }
-    #         )
-    #     ordering = self.get_ordering()
-    #     if ordering:
-    #         if isinstance(ordering, str):
-    #             ordering = (ordering,)
-    #         queryset = queryset.order_by(*ordering)
-    #
-    #     return queryset
-
-
-class SubjectListView(ListView):
+class ClassifiedIndexView(ListView):
     template_name = 'advertise/advertise_home.html'
     model = Post
 
     def get_queryset(self):
-        query = self.kwargs['subject_id']
-        if query == 0:
-            object_list = Post.objects.filter(subject__icontains='국어')
-            return object_list
-        elif query == 1:
-            object_list = Post.objects.filter(subject__icontains='수학')
-            return object_list
-        elif query ==2:
-            object_list = Post.objects.filter(subject__icontains='영어')
-            return object_list
+        sex = self.request.GET.get('sex')
+        region = self.request.GET.get('region')
+        queryset = super(ClassifiedIndexView, self).get_queryset()
+        return queryset.filter(sex=sex, region=region)
 
 
 class AdvertiseDetailView(DetailView):
@@ -86,6 +66,11 @@ class AdvertiseCreateView(CreateView):
     form_class = UploadFileForm
     model = Post
     success_url = reverse_lazy('advertise:index')
+
+    def get_form_kwargs(self):
+        kwargs = super(AdvertiseCreateView, self).get_form_kwargs()
+        kwargs['author'] = self.request.user
+        return kwargs
 
 
 class AdvertiseUpdateView(UpdateView):
