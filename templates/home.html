@@ -8,6 +8,8 @@
             <a href="{% url 'notice:post_index' %}">공지사항</a>
             <br>
             <a href="{% url 'advertise:index' %}">홍보게시판</a>
+            <br>
+            <a href="{% url 'management:index' %}">관리</a>
         {% else %}
             <br>
             <form method="post" action="{% url 'home' %}">
