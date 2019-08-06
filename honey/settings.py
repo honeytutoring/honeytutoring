@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'accounts.apps.UsersConfig',
     'notice.apps.NoticeConfig',
     'advertise.apps.AdvertiseConfig',
-]
+    'management.apps.ManagementConfig',
+    'region.apps.RegionConfig',
+ ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
