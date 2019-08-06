@@ -23,37 +23,26 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="">전체 <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          과목별
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <a class="dropdown-item" href="{% url 'advertise:subject' 0 %}">국어</a>
-        <a class="dropdown-item" href="{% url 'advertise:subject' 1 %}">수학</a>
-        <a class="dropdown-item" href="{% url 'advertise:subject' 2 %}">영어</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          지역별
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <a class="dropdown-item" href="{% url 'advertise:region' 0 %}">서울</a>
-        <a class="dropdown-item" href="{% url 'advertise:region' 1 %}">경기도</a>
-        <a class="dropdown-item" href="{% url 'advertise:region' 2 %}">충청도</a>
-        </div>
-      </li>
-    </ul>
+      {% for sex in user_sex_option %}
+          <option value = "{{ sex.0 }}">{{ sex.1 }}</option>
+      {% endfor %}
+
   </div>
+    {% for region in regions %}
+        <div>
+        <h1>{{ region }}</h1>
+        {% for claasified_region in region.classified_regions.all %}
+
+            <p>{{ claasified_region }}</p>
+        {% endfor %}
+
+        </div>
+    {% endfor %}
 </nav>
 <p>
     {%if object_list%}
-    {% for list in object_list %}
-        <li><a href="{% url 'advertise:detail' list.id%}">{{ list.title }}{{ list.author }}{{ list.created_date }}</a></li>
+    {% for post in post_list %}
+        <li><a href="{% url 'advertise:detail' post.id%}">{{ post.title }}{{ post.author }}{{ post.created_date }}</a></li>
     {% endfor %}
     {%else%}
     <p>등록된 글이 없습니다.</p>
