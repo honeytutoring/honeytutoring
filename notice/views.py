@@ -13,9 +13,6 @@ class NoticeIndexView(ListView):
     context_object_name = 'posts'
     ordering = ['-create_date', ]
 
-    def get_ordering(self):
-        return self.ordering
-
 
 class NoticeDetailView(DetailView):
     template_name = 'notice/notice_detail.html'
