@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Region(models.Model):
+    objects = models.Manager()
     area = models.CharField(max_length=4, blank=False, default='', null=True)
 
     def __str__(self):

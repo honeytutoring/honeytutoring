@@ -1,0 +1,5 @@
+<form method="post" action="{% url 'question:question_edit' object.id %}  ">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="save">
+</form>

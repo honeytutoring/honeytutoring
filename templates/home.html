@@ -10,6 +10,7 @@
             <a href="{% url 'advertise:index' %}">홍보게시판</a>
             <br>
             <a href="{% url 'management:index' %}">관리</a>
+            <p><a href="{% url 'question:question_index' %}">Q&A</a></p>
         {% else %}
             <br>
             <form method="post" action="{% url 'home' %}">

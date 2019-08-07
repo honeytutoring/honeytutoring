@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'advertise.apps.AdvertiseConfig',
     'management.apps.ManagementConfig',
     'region.apps.RegionConfig',
+    'question.apps.QuestionConfig',
  ]
 
 MIDDLEWARE = [
