@@ -15,30 +15,94 @@
     <input class="button" type='submit' value="검색">
 </form>
     
-<a href ="{% url 'advertise:create' %}">등록하기</a> 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
- 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      {% for sex in user_sex_option %}
-          <option value = "{{ sex.0 }}">{{ sex.1 }}</option>
-      {% endfor %}
 
+<p>
+  <a class="btn btn-light" data-toggle="collapse" href="#filterform" role="button" aria-expanded="false" aria-controls="filterform">
+    FILTER
+  </a>
+</p>
+<div class="collapse" id="filterform">
+<form method="get" action="{% url 'advertise:classified' %}" style="width:50%; margin-left:5%">
+  <div class="form-group row">
+    <label for="inputname" class="col-sm-2 col-form-label">선생님 이름</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name = "name" id="inputname" placeholder="선생님 이름">
+    </div>
   </div>
-    {% for region in regions %}
-        <div>
-        <h1>{{ region }}</h1>
-        {% for claasified_region in region.classified_regions.all %}
-
-            <p>{{ claasified_region }}</p>
-        {% endfor %}
-
+  <fieldset class="form-group">
+    <div class="row">
+      <legend class="col-form-label col-sm-2 pt-0">선생님 성별</legend>
+      <div class="col-sm-10">
+        <div name = "sex[]" class="form-check">
+          <input class="form-check-input" type="checkbox" id="gridcheckbox1" value="man">
+          <label class="form-check-label" for="gridcheckbox1">
+            남
+          </label>
         </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="gridcheckbox2" value="woman">
+          <label class="form-check-label" for="gridcheckbox2">
+            여
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <div class="form-group row">
+    <div class="col-sm-10">
+  <label class="my-1 mr-2" for="inlineFormCustomSelectPref">수강 과목</label>
+  <select name = "subject" style="width:30%" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+    <option selected>선택 없음</option>
+    <option value="국어">국어</option>
+    <option value="수학">수학</option>
+    <option value="영어">영어</option>
+  </select>
+    </div>
+  </div>
+
+<div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputState">수강 지역[도, 특별(광역)시]</label>
+      <select name="region_1" id="inputState" class="custom-select my-1 mr-sm-2">
+        <option selected>선택 없음</option>
+      {% for region in region %}
+        <option value="{{ region }}">{{region}}</option>
+      {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="inputCountry">수강 지역[구, 시]</label>
+      <select name="region_2" id="inputCountry" class="custom-select my-1 mr-sm-2">
+        <option selected>선택 없음</option>
+        {% for classified_regions in region.classified_region.all%}
+        <option value="{{ classified_regions }}">{{ classified_regions }}</option>
+        {% endfor %}
+      </select>
+    </div>
+</div>
+
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary">검색</button>
+    </div>
+  </div>
+</form>
+</div>
+
+
+<p>
+{% if context %}
+    {% for list in context %}
+        <li><a href="{% url 'advertise:detail' list.id%}">{{ list.title }}{{ list.author }}{{ list.created_date }}</a></li>
     {% endfor %}
-</nav>
+{% else %}
+<p>검색 결과가 없습니다.</p>
+{% endif %}
+</p>
+
+
 <p>
     {%if object_list%}
     {% for post in post_list %}
@@ -48,3 +112,5 @@
     <p>등록된 글이 없습니다.</p>
     {% endif %} 
 </p>
+
+<p><a href ="{% url 'advertise:create' %}">등록하기</a> </p>

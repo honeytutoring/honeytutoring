@@ -1,7 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, DeleteView, UpdateView, FormView
 from accounts.models import Users
 from region.models import Region
@@ -19,7 +19,7 @@ class AdvertiseIndexView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(AdvertiseIndexView, self).get_context_data(object_list=object_list, **kwargs)
         context['user_sex_option'] = Users.GENDER_OPTION
-        context['regions'] = Region.objects.all()
+        context['region'] = Region.objects.all()
 
         return context
 
@@ -45,15 +45,68 @@ class AdvertiseSearchFormView(FormView):
         return render(self.request, self.template_name, context)
 
 
-class ClassifiedIndexView(ListView):
+class ClassifiedIndexView(View):
     template_name = 'advertise/advertise_home.html'
     model = Post
+    # context_object_name = 'filter_list'
 
-    def get_queryset(self):
-        sex = self.request.GET.get('sex')
-        region = self.request.GET.get('region')
-        queryset = super(ClassifiedIndexView, self).get_queryset()
-        return queryset.filter(sex=sex, region=region)
+    def get(self, form):
+        author = self.request.GET.get('name')
+        subject = self.request.GET.get('subject')
+        region = self.request.GET.get('region_1')
+        classified_region_name = self.request.GET.get('region_2')
+        sex = self.request.GET.getlist('sex')
+        # queryset = super(ClassifiedIndexView, self).get_queryset()
+        
+        #qlist = [author, subject, region, classified_region_name]
+        # if len(sex) == 2 or len(sex)==0 :
+        #     obj = Post.objects.all()
+        # for i in qlist:
+        #     if (qlist[i] == "선생님 이름") or (qlist[i] == "선택 없음"):
+        #         qlist.remove(qlist[i])
+        if author == '':
+            if subject == "선택 없음":
+                if region == "선택 없음":
+                    context = Post.objects.all()
+                elif classified_region_name == "선택 없음":
+                    context = Post.objects.filter(region__area=region)
+                else:
+                    context = Post.objects.filter(region__area=region, classifiedregion__classified_region =classified_region_name)
+            elif region == "선택 없음":
+                context = Post.objects.filter(subject__subject_title=subject)
+            elif classified_region_name == "선택 없음":
+                context = Post.objects.filter(subject__subject_title=subject, region__area=region)
+            else:
+                context = Post.objects.filter(subject__subject_title=subject, region__area=region, classifiedregion__classified_region =classified_region_name)
+            
+        else:
+            if subject == "선택 없음":
+                if region == "선택 없음":
+                    context = Post.objects.filter(author__=author)
+                elif classified_region_name == "선택 없음":
+                    context = Post.objects.filter(post__author=author, region__area=region)
+                else:
+                    context = Post.objects.filter(post__author=author, region__area=region, classifiedregion__classified_region =classified_region_name)
+            elif region == "선택 없음":
+                context = Post.objects.filter(post__author=author,subject__subject_title=subject)
+            elif classified_region_name == "선택 없음":
+                context = Post.objects.filter(post__author=author, subject__subject_title=subject, region__area=region)
+            else:
+                context = Post.objects.filter(post__author=author, subject__subject_title=subject, region__area=region, classifiedregion__classified_region =classified_region_name)
+
+
+        if len(sex) == 2 or len(sex) == 0:
+            context={'context':context}
+            return render(self.request, self.template_name, context)        
+        else:
+            if sex(1) == None:
+                context = context.filter(post__sex__exact=sex(1))
+                context={'context':context}
+                return render(self.request, self.template_name, context)
+            else:
+                context = context.filter(post__sex__exact=sex(2))
+                context={'context':context}
+                return render(self.request, self.template_name, context)
 
 
 class AdvertiseDetailView(DetailView):
