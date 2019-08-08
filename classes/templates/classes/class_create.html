@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="field-input">
+            <label class="col-md-3" for="id_class_name">Class 이름</label> <input class="col-md-9" type="text" name="class_name" maxlength="15" required="" id="id_class_name">
+        </div>
+        <div class="field-input">
+            <label class="col-md-3" for="id_description">요약</label> <input class="col-md-9" type="text" name="description" maxlength="13" required="" id="id_description">
+        </div>
+        <div class="field-input">
+            <label class="col-md-3" for="subject">과목</label> <input class="col-md-9" type="text" name="subject" required="" id="id_description">
+        </div>
+        <div class="field-input">
+            <label class="col-md-3" for="id_etc">기타 사항</label> <input class="col-md-9" type="text" name="etc" maxlength="254" id="id_etc">
+        </div>
+
+        <div class="field-input">
+            <label class="col-md-3" for="id_student_id">학생 ID</label> <input class="col-md-9" type="text" name="student_id" maxlength="150" autofocus="" required="" id="id_student_id">
+            <input type="button" id="checkStudentId" value="인증">
+        </div>
+
+        <div class="field-input">
+            <label class="col-md-3" for="id_parent_id">학부모 ID</label> <input class="col-md-9" type="text" name="parent_id" required="" id="id_parent_id">
+        </div>
+        <div class="row">
+            <button type="submit" class="pull-right">제출</button>
+        </div>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#checkStudentId').click(function () {
+                var name = $('#id_student_id').val();
+                $.ajax({
+                    url: "{% url 'classes:check' %}",
+                    data: {
+                        "name": name
+                    },
+                    success: function (data) {
+                        var new_data = data['msg'];
+                        alert(new_data);
+                    },
+                    error: function () {
+                        alert('실패');
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

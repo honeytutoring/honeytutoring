@@ -1,0 +1,84 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block extra_styles %}
+    <link href='{% static 'vendor/fullcalendar/core/main.css' %}' rel='stylesheet' />
+    <link href='{% static 'vendor/fullcalendar/daygrid/main.css' %}' rel='stylesheet' />
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+    <script src="{% static 'vendor/fullcalendar/core/main.js' %}"></script>
+    <script src="{% static 'vendor/fullcalendar/daygrid/main.js' %}"></script>
+    <script src="{% static 'vendor/fullcalendar/interaction/main.js' %}"></script>
+    <script src="{% static 'vendor/fullcalendar/moment/main.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['dayGrid', 'interaction', 'moment'],
+                defaultView: 'dayGridMonth',
+                selectable: true,
+                events: [
+                    {% for schedule in object.schedules.all %}
+                        {
+                            id: {{ schedule.id }},
+                            title: '{{ schedule.name }}',
+                            start: '{{ schedule.start_date|date:"c" }}',
+                            end: '{{ schedule.end_date|date:"c" }}',
+                        },
+                    {% endfor %}
+                ],
+                eventClick: function (info) {
+                    if (confirm(info.event.title + '을(를) 삭제하시겠습니까?')) {
+                        document.location.href = info.event.id + '/delete/';
+                    }
+                },
+                select: function (selectionInfo) {
+                    var input = prompt('일정 제목을 입력하세요 !');
+                    if (input) {
+                        document.getElementById('name').value = input;
+                        document.getElementById('start_date').value = selectionInfo.startStr;
+                        document.getElementById('end_date').value = selectionInfo.endStr;
+                        document.getElementById("event_form").submit();
+                    }
+                }
+            });
+            calendar.render();
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    <div style="max-width:900px; margin:0 auto;" id='calendar'></div>
+    <form action="{% url 'classes:schedule_create' object.id %}" method="post" id="event_form">
+        {% csrf_token %}
+        <input type="hidden" name="name" id="name">
+        <input type="hidden" name="start_date" id="start_date">
+        <input type="hidden" name="end_date" id="end_date">
+    </form>
+    <div>
+        <h1>
+            학생
+            {% for student in object.students.all %}
+                <p>{{ student }}</p>
+            {% endfor %}
+        </h1>
+        <h1>
+            선생님
+            <p>
+                {{ object.class_teacher }}
+            </p>
+        </h1>
+    </div>
+    <div>
+        <h1>
+            메모
+        </h1>
+        <div>
+            {% for memo in object.memos.all %}
+                <p>{{ memo }}</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
