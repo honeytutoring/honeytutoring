@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
 from honey.views import *
 from django.conf import settings
@@ -29,6 +30,9 @@ urlpatterns = [
     path('advertise/', include('advertise.urls', namespace='advertise')),
     path('management/', include('management.urls', namespace = 'management')),
     path('question/',include('question.urls',namespace='question')),
+    path('classes/', include('classes.urls', namespace='classes')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+if settings.DEBUG:
+    urlpatterns += staticfiles_urlpatterns()

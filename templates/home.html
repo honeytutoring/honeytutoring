@@ -1,3 +1,4 @@
+{% extends 'base.html' %}
 {% block content %}
     <h1>HELLO HONEY TUTORING</h1>
         {% if user.is_authenticated %}
@@ -9,8 +10,8 @@
             <br>
             <a href="{% url 'advertise:index' %}">홍보게시판</a>
             <br>
-            <a href="{% url 'management:index' %}">관리</a>
             <p><a href="{% url 'question:question_index' %}">Q&A</a></p>
+            <a href="{% url 'classes:index' %}">관리</a>
         {% else %}
             <br>
             <form method="post" action="{% url 'home' %}">
