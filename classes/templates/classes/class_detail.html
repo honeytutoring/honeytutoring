@@ -32,7 +32,7 @@
                 ],
                 eventClick: function (info) {
                     if (confirm(info.event.title + '을(를) 삭제하시겠습니까?')) {
-                        document.location.href = info.event.id + '/delete/';
+                        document.location.href += '/schedules/' + info.event.id + '/delete/';
                     }
                 },
                 select: function (selectionInfo) {
@@ -50,13 +50,28 @@
     </script>
 {% endblock %}
 {% block content %}
-    <div style="max-width:900px; margin:0 auto;" id='calendar'></div>
+    <div style="max-width:900px; margin:0 auto; float: left" id='calendar'></div>
     <form action="{% url 'classes:schedule_create' object.id %}" method="post" id="event_form">
         {% csrf_token %}
         <input type="hidden" name="name" id="name">
         <input type="hidden" name="start_date" id="start_date">
         <input type="hidden" name="end_date" id="end_date">
     </form>
+    <div style="float:right;">
+        {% for memo in memo_list.all %}
+            <p id="memo">{{ memo.content }}</p>
+        {% endfor %}
+
+    </div>
+
+    <form method="post" action="{% url 'classes:memo_create' object.id  %}">
+        {% csrf_token %}
+        <div class="field-input" style="float: right">
+            <label class="col-md-3" for="id_content"></label> <input class="col-md-9" type="text" maxlength="250" name="content" id="id_content"/>
+            <button type="submit" value="메모생성">메모생성</button>
+        </div>
+    </form>
+
     <div>
         <h1>
             학생
@@ -81,4 +96,27 @@
             {% endfor %}
         </div>
     </div>
+
+
+{#    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>#}
+{#    <script type="text/javascript">#}
+{#        $(function () {#}
+{#            $('#memo').click(function () {#}
+{#                var memo = $('#memo').val();#}
+{#                $.ajax({#}
+{#                    url: "{% url 'classes:memo_delete' memo.id %}",#}
+{#                    data: {#}
+{#                        "memo": memo#}
+{#                    },#}
+{#                    success: function () {#}
+{#                        alert('삭제되었습니다.');#}
+{#                    },#}
+{#                    error: function () {#}
+{#                        alert('실패');#}
+{#                    }#}
+{#                });#}
+{#            });#}
+{#        });#}
+{#    </script>#}
+
 {% endblock %}

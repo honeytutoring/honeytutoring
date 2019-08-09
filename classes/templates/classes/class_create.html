@@ -16,13 +16,22 @@
         </div>
 
         <div class="field-input">
-            <label class="col-md-3" for="id_student_id">학생 ID</label> <input class="col-md-9" type="text" name="student_id" maxlength="150" autofocus="" required="" id="id_student_id">
-            <input type="button" id="checkStudentId" value="인증">
+            <label class="col-md-3">학생 ID</label>
+            <input class="col-md-9" type="text"maxlength="150" id="studentNameInput">
+            <button id="searchStudentName" type="button">확인</button>
+            <div id="studentFormWrapper">
+
+            </div>
+            <div id="studentForm" style="display: none;">
+                <input readonly class="student-name-input">
+                <input class="student-id-input" name="students" style="visibility: hidden;">
+                <button class="student-delete-btn" type="button">삭제</button>
+            </div>
         </div>
 
-        <div class="field-input">
-            <label class="col-md-3" for="id_parent_id">학부모 ID</label> <input class="col-md-9" type="text" name="parent_id" required="" id="id_parent_id">
-        </div>
+{#        <div class="field-input">#}
+{#            <label class="col-md-3" for="id_parent_id">학부모 ID</label> <input class="col-md-9" type="text" name="parent_id" required="" id="id_parent_id">#}
+{#        </div>#}
         <div class="row">
             <button type="submit" class="pull-right">제출</button>
         </div>
@@ -30,19 +39,33 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            $('#checkStudentId').click(function () {
-                var name = $('#id_student_id').val();
+            $('body').on('click', '.student-delete-btn', function () {
+               $(this).parent().remove();
+            });
+
+            $('#searchStudentName').click(function () {
+                var name = $('#studentNameInput').val();
                 $.ajax({
                     url: "{% url 'classes:check' %}",
                     data: {
                         "name": name
                     },
                     success: function (data) {
-                        var new_data = data['msg'];
-                        alert(new_data);
+                        var student_id = data['student_id'];
+
+                        var $newStudentForm = $('#studentForm').clone();
+                        $newStudentForm.children('.student-name-input').val(name);
+                        $newStudentForm.children('.student-id-input').val(student_id);
+                        $('#studentNameInput').val('');
+                        $('#studentFormWrapper').append($newStudentForm);
+                        $newStudentForm.show();
+
+                        $newStudentForm.children('student-delete-btn').click(function () {
+                            $(this).parent().remove();
+                        });
                     },
                     error: function () {
-                        alert('실패');
+                        alert('존재하지 않는 학생 ID 입니다.');
                     }
                 });
             });

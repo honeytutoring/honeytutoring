@@ -26,7 +26,7 @@ class Schedule(models.Model):
 
 class Memo(models.Model):
     klass = models.ForeignKey('classes.Class', on_delete=models.CASCADE, related_name='memo')
-    content = models.TextField()
+    content = models.CharField(max_length=250)
 
     def __str__(self):
         return self.content
