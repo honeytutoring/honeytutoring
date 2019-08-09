@@ -22,6 +22,9 @@ class Users(AbstractUser):
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
 
+    def is_teacher(self):
+        return hasattr(self, 'teacher') and self.user_type == Users.USER_TEACHER
+
 
 class Teacher(models.Model):
     user = models.OneToOneField('accounts.Users', on_delete=models.CASCADE, related_name='teacher')
@@ -40,6 +43,5 @@ class Student(models.Model):
 
     def __str__(self):
         return self.user.first_name
-
 
 
