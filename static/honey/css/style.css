@@ -11,9 +11,7 @@ input {
   /* display: block; */
   margin-top: 7px;
   font-family: "Cabin Condensed";
-  font-size: 13px;
-  background-color: transparent;
-  border-color: transparent;
+  font-size: 13px;/
 }
 input:focus {
   outline: none !important;
@@ -26,8 +24,6 @@ button {
   color: rgb(255, 255, 255);
   height: 100%;
   width: 100%;
-  background-color: transparent;
-  border-color: transparent;
 }
 ::placeholder {
   color: rgb(179, 179, 179);
