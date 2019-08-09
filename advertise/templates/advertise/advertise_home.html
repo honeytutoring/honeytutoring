@@ -1,63 +1,16 @@
-{% extends 'base.html' %}
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
 
-{#<head>#}
-{#<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">#}
-{#<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>#}
-{#<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>#}
-{#<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>#}
-{#</head>#}
-{##}
-{##}
-{#<h1>메인 홍보 페이지</h1>#}
-{##}
-{##}
-{#<form method="post" action="{% url 'advertise:search' %}">#}
-{#    {% csrf_token %}#}
-{#    <input type='text' name="search_word" placeholder="찾으시는 선생님이 있으신가요?">#}
-{#    <input class="button" type='submit' value="검색">#}
-{#</form>#}
-{#    #}
-{#<a href ="{% url 'advertise:create' %}">등록하기</a> #}
-{##}
-{#<nav class="navbar navbar-expand-lg navbar-light bg-light">#}
-{# #}
-{#  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">#}
-{#    <span class="navbar-toggler-icon"></span>#}
-{#  </button>#}
-{#  <div class="collapse navbar-collapse" id="navbarNavDropdown">#}
-{#      {% for sex in user_sex_option %}#}
-{#          <option value = "{{ sex.0 }}">{{ sex.1 }}</option>#}
-{#      {% endfor %}#}
-{##}
-{#  </div>#}
-{#    {% for region in regions %}#}
-{#        <div>#}
-{#        <h1>{{ region }}</h1>#}
-{#        {% for claasified_region in region.classified_regions.all %}#}
-{##}
-{#            <p>{{ claasified_region }}</p>#}
-{#        {% endfor %}#}
-{##}
-{#        </div>#}
-{#    {% endfor %}#}
-{#</nav>#}
-{#<p>#}
-{#    {%if object_list%}#}
-{#    {% for post in post_list %}#}
-{#        <li><a href="{% url 'advertise:detail' post.id%}">{{ post.title }}{{ post.author }}{{ post.created_date }}</a></li>#}
-{#    {% endfor %}#}
-{#    {%else%}#}
-{#    <p>등록된 글이 없습니다.</p>#}
-{#    {% endif %} #}
-{#</p>#}
-
-{% block content %}
     <h1>메인 홍보 페이지</h1>
 
 
     <form method="post" action="{% url 'advertise:search' %}">
         {% csrf_token %}
-        <input type='text' name="search_word" placeholder="찾으시는 선생님이 있으신가요?">
+        <input type='text' name="search_word" placeholder="검색">
         <input class="button" type='submit' value="검색">
     </form>
 
@@ -69,8 +22,8 @@
         </a>
     </p>
     <div class="collapse" id="filterform">
-        <form method="post" action="{% url 'advertise:classified' %}" style="width:50%; margin-left:5%">
-            {% csrf_token %}
+        <form method="get" action="{% url 'advertise:classified' %}" style="width:50%; margin-left:5%">
+            
             <div class="form-group row">
                 <label for="inputname" class="col-sm-2 col-form-label">선생님 이름</label>
                 <div class="col-sm-10">
@@ -185,4 +138,3 @@
     </p>
 
     <p><a href ="{% url 'advertise:create' %}">등록하기</a> </p>
-{% endblock %}

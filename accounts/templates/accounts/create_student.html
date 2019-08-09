@@ -1,8 +1,112 @@
 {% extends 'base.html' %}
 {% block content %}
-    <form method="post" action="{% url 'accounts:student' %} ">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">제출</button>
-    </form>
+ <form method="post" > 
+ {% csrf_token %} 
+  <div style="height: 950px;">
+    <div class="sc-bwzfXH jNpIyI">
+      <div class="row no-gutters" style="height: 170px;"></div>
+    </div>
+    <div class="sc-bwzfXH jNpIyI">
+      <div
+        class="row no-gutters"
+        style="height: 30px; width: 100%; position: relative;"
+      >
+        <div style="position: absolute; left: 50%; transform: translateX(-50%);">
+          <div
+            style="height: 400px; width: 350px; border-radius: 7px; background-color: rgb(255, 255, 255); box-shadow: rgb(196, 196, 196) 0px 0px 50px 0px;"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <div class="sc-bwzfXH jNpIyI">
+      <div class="row no-gutters" style="height: 70px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6" style="position: relative;">
+          <div
+            style="position: absolute; left: 50%; transform: translateX(-50%);"
+          >
+            <span
+              style='font-size: 23px; font-family: "Cabin Condensed"; font-weight: 700; display: inline-block;'
+              >학생 프로필</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="sc-bwzfXH jNpIyI">
+      <div class="row no-gutters" style="height: 75px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+          <div style="position: relative;">
+            <div
+              style="width: 300px; height: 30px; border-radius: 0.375em; position: absolute; left: 50%; transform: translateX(-50%); display: block;"
+            >
+              <div style="display: block;">
+                <span
+                  style='margin-left: 5px; display: block; margin-top: 14px; font-family: "Cabin Condensed"; font-size: 13px; color: rgb(179, 179, 179);'
+                  >학교</span
+                >
+              </div>
+              <div
+                style="width: 300px; height: 40px; background-color: rgb(250, 250, 250); border-radius: 0.375em; border-width: 1px; border-color: rgb(231, 231, 231); border-style: solid; display: block; margin-top: 5px;"
+              >
+                <input
+                  type="text"
+                  name="school"
+                  required id="id_school"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sc-bwzfXH jNpIyI">
+      <div class="row no-gutters" style="height: 75px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+          <div style="position: relative;">
+            <div
+              style="width: 300px; height: 30px; border-radius: 0.375em; position: absolute; left: 50%; transform: translateX(-50%); display: block;"
+            >
+              <div style="display: block;">
+                <span
+                  style='margin-left: 5px; display: block; margin-top: 14px; font-family: "Cabin Condensed"; font-size: 13px; color: rgb(179, 179, 179);'
+                  >학년</span
+                >
+              </div>
+              <div
+                style="width: 300px; height: 40px; background-color: rgb(250, 250, 250); border-radius: 0.375em; border-width: 1px; border-color: rgb(231, 231, 231); border-style: solid; display: block; margin-top: 5px;"
+              >
+                <input type="text" name="age" required id="id_age" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <br>
+    <div class="sc-bwzfXH jNpIyI">
+      <div class="row no-gutters" style="height: 5px;"></div>
+    </div>
+    <div class="sc-bwzfXH jNpIyI">
+      <div class="row no-gutters" style="height: 70px;">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6" style="border-radius: 0.375px;">
+          <div style="position: relative;">
+            <div
+              style="width: 300px; height: 40px; position: absolute; left: 50%; transform: translateX(-50%); background-color: rgb(243, 189, 39); border-radius: 3px; text-align: center; padding-top: 2px;"
+            >
+              <button type="submit">등록</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
 {% endblock %}
+  

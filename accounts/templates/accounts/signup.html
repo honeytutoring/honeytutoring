@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-
-    <div style="height: 950px;">
+<form method="post">
+{% csrf_token %}
+    <div style="height: 1100px;">
         <div class="sc-bwzfXH jNpIyI">
             <div class="row no-gutters" style="height: 100px;"></div>
         </div>
@@ -151,9 +152,9 @@
                             <div style="display: block;">
                                 <span style='margin-left: 5px; display: block; margin-top: 14px; font-family: "Cabin Condensed"; font-size: 13px; color: rgb(179, 179, 179);'>성</span>
                             </div>
-                            <div style="width: 300px; height: 10px; background-color: transparent;    display: block; margin-top: 5px;">
-                                <select name="sex" required="" id="id_sex">
-                                    <option value="">---------</option>
+                            <div style="width: 300px; height: 10px; background-color: transparent;   display: block; margin-top: 5px;">
+                                <select style='font-family:"Cabin Condensed"; font-size:14px' name="sex" required="" id="id_sex" class="form-control">
+                                    <option value="">선택 없음</option>
 
                                     <option value="0">남성</option>
 
@@ -175,14 +176,15 @@
                                 <span style='margin-left: 5px; display: block; margin-top: 14px; font-family: "Cabin Condensed"; font-size: 13px; color: rgb(179, 179, 179);'>신분</span>
                             </div>
                             <div style="width: 300px; height: 10px; background-color: transparent;    display: block; margin-top: 5px;">
-                                <select name="user_type" required="" id="id_user_type">
-                                    <option value="">---------</option>
+                                <select style='font-family:"Cabin Condensed"; font-size:14px' name="user_type" required="" id="id_user_type" class="form-control">
+                                    <option value="">선택 없음</option>
 
                                     <option value="0">선생님</option>
 
                                     <option value="1">학생</option>
 
-                                    <option value="2">학부모</option>
+                                    <option value="2">학부모</option> 
+                                    
                                 </select>
                             </div>
                         </div>
@@ -193,6 +195,7 @@
         <div class="sc-bwzfXH jNpIyI">
             <div class="row no-gutters" style="height: 5px;"></div>
         </div>
+        <p>
         <div class="sc-bwzfXH jNpIyI">
             <div class="row no-gutters" style="height: 70px;">
                 <div class="col-sm-3"></div>
@@ -205,5 +208,14 @@
                 </div>
             </div>
         </div>
+        </p>
+         <div class="sc-bwzfXH jNpIyI">
+            <div class="row no-gutters" style="height: 300px;"></div>
+        </div>
     </div>
+    <div class="sc-bwzfXH jNpIyI">
+            <div class="row no-gutters" style="height: 300px;"></div>
+        </div>
+</form>
+
 {% endblock %}

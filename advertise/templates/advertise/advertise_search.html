@@ -4,7 +4,7 @@
 
 <form method="POST" action="{% url 'advertise:search' %}">
     {% csrf_token %}
-    <input type='text' name='search_word' placeholder="찾으시는 선생님이 있으신가요?">
+    <input type='text' name='search_word' placeholder="검색">
     <input class="button" type='submit' value="검색">
 </form>
 
