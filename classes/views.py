@@ -128,7 +128,7 @@ class MemoDeleteView(DeleteView):
 
 
 @csrf_exempt
-def idCheck(request, *args, **kwargs):
+def StudentIdCheck(request, *args, **kwargs):
     user_name = request.GET.get('name')
     student_user = get_object_or_404(Users, username=user_name)
 

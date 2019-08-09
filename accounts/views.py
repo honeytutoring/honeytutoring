@@ -1,7 +1,10 @@
+from django.http import JsonResponse, Http404, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from .forms import CreateUserForm, TeacherForm, StudentForm
+from .forms import CreateUserForm, TeacherForm, StudentForm, ParentForm
 from .models import Users
 from django.contrib.auth import login as auth_login
 
@@ -71,4 +74,3 @@ class TeacherDetailView(DetailView):
     template_name = 'accounts/teacher_datail.html'
     model = Users
     context_object_name = 'user'
-
