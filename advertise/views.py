@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404,reverse
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -62,13 +63,13 @@ class ClassifiedIndexView(View):
 
     # context_object_name = 'filter_list'
 
-    def post(self, form):
+    def get(self, form):
         query = "ok"
-        author = self.request.POST.get('name')
-        subject = self.request.POST.get('subject')
-        region = self.request.POST.get('region_1')
-        classified_region_name = self.request.POST.get('region_2')
-        sex = self.request.POST.getlist('sex')
+        author = self.request.GET.get('name')
+        subject = self.request.GET.get('subject')
+        region = self.request.GET.get('region_1')
+        classified_region_name = self.request.GET.get('region_2')
+        sex = self.request.GET.getlist('sex')
         name = list(author)
         query_name1 = "".join(name[1:])
         query_name2 = "".join(name[2:])
@@ -177,7 +178,19 @@ class AdvertiseUpdateView(UpdateView):
     form_class = UploadFileForm
     success_url = reverse_lazy('advertise:index')
 
+def AdvertiseDelete(request, pk):
+    target = get_object_or_404(Post, pk=pk)
+    target.delete()
+        
+    return HttpResponseRedirect(reverse('advertise:index'))
 
+
+
+
+# class AdvertiseDeleteView(DeleteView):
+#     template_name = 'advertise/post_confirm_delete.html'
+#     model = Post
+#     success_url = reverse_lazy('advertise:index')
 class AdvertiseDeleteView(DeleteView):
     template_name = 'advertise/post_confirm_delete.html'
     model = Post

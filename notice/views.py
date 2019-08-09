@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, reverse, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView, DeleteView
 from .models import *
 from .forms import *
@@ -35,8 +35,14 @@ class NoticeUpdateView(SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('notice:post_index')
 
 
-class NoticeDeleteView(SuccessMessageMixin, DeleteView):
-    template_name_suffix = '_delete'
-    model = Posts
-    success_message = "%(name)s was deleted successfully"
-    success_url = reverse_lazy('notice:post_index')
+# class NoticeDeleteView(SuccessMessageMixin, DeleteView):
+#     template_name_suffix = '_delete'
+#     model = Posts
+#     success_message = "%(name)s was deleted successfully"
+#     success_url = reverse_lazy('notice:post_index')
+
+def NoticeDelete(request, pk):
+    target = get_object_or_404(Posts, pk=pk)
+    target.delete()
+        
+    return HttpResponseRedirect(reverse('notice:post_index'))

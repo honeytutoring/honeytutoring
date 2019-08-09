@@ -8,5 +8,5 @@ urlpatterns = [
     path('index/<int:pk>/', NoticeDetailView.as_view(), name='post_detail'),
     path('create/', NoticeCreateView.as_view(), name='post_create'),
     path('index/<int:pk>/update', NoticeUpdateView.as_view(), name='post_update'),
-    path('index/<int:pk>/delete', NoticeDeleteView.as_view(), name='post_delete'),
+    path('index/<int:pk>/delete', NoticeDelete, name='post_delete'),
 ]
