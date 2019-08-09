@@ -1,5 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404,reverse
+from django.http import JsonResponse
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView, FormView, View
@@ -61,13 +63,13 @@ class ClassifiedIndexView(View):
 
     # context_object_name = 'filter_list'
 
-    def post(self, form):
+    def get(self, form):
         query = "ok"
-        author = self.request.POST.get('name')
-        subject = self.request.POST.get('subject')
-        region = self.request.POST.get('region_1')
-        classified_region_name = self.request.POST.get('region_2')
-        sex = self.request.POST.getlist('sex')
+        author = self.request.GET.get('name')
+        subject = self.request.GET.get('subject')
+        region = self.request.GET.get('region_1')
+        classified_region_name = self.request.GET.get('region_2')
+        sex = self.request.GET.getlist('sex')
         name = list(author)
         query_name1 = "".join(name[1:])
         query_name2 = "".join(name[2:])
@@ -189,3 +191,13 @@ def AdvertiseDelete(request, pk):
 #     template_name = 'advertise/post_confirm_delete.html'
 #     model = Post
 #     success_url = reverse_lazy('advertise:index')
+class AdvertiseDeleteView(DeleteView):
+    template_name = 'advertise/post_confirm_delete.html'
+    model = Post
+    success_url = reverse_lazy('advertise:index')
+
+
+def RegionView(request, *args, **kwargs):
+    region = request.POST.get('region')
+
+    return JsonResponse()
