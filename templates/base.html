@@ -11,6 +11,29 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&display=swap&subset=korean" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <style>
+        html, body {
+            height: 100%;
+        }
+        .content{
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center top;
+            text-align: center
+        }
+        .wrapper{
+            width: 720px;
+            margin-top: 150px;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+            background: white;
+            display: inline-block;
+        }
+
+    </style>
     {% block extra_styles %}
     {% endblock %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -19,9 +42,13 @@
     <title>{% block title %}HoneyTutoring{% endblock %}</title>
 </head>
 <body>
-<h1>HELLO HONEY TUTORING</h1>
 {% block content %}
 {% endblock %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>
