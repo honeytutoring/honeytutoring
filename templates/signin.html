@@ -1,107 +1,80 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block extra_styles %}
+    <style>
+     input{
+            width: 280px;
+            padding: 5px 25px;
+            border-radius: 26px;
+            border: solid 1px #7e86dc;
+            background-color: #ffffff;
+            color: #7e86dc;
+        }
+        button{
+            border: none;
+            margin-top: 30px;
+            font-weight: 500;
+            padding: 5px 25px;
+            border-radius: 33px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+            background-color: #ffffb5;
+            color: #3800a8;
+            font-weight: bold;
+        }
+        #sign-in-title{
+            width: 280px;
+            margin-bottom: 50px;
+        }
+    html, body {
+            height: 100%;
+        }
+        .content{
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center top;
+            text-align: center
+        }
+        .wrapper{
+            width: 720px;
+            margin-top: 150px;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+            background: white;
+            display: inline-block;
+        }
+
+    </style>
+{% endblock %}
+
 {% block content %}
-    {% if user.is_authenticated %}
-        HI {{ user.username }}
-        <p><a href="{% url 'signout' %}">logout</a></p>
-        <p><a href="{% url 'accounts:edit' user.id %}">내 정보 수정하기</a></p>
-    {% else %}
-        <br>
-        <div style="height: 800px;">
-            <div class="sc-bwzfXH jNpIyI">
-                <div class="row no-gutters" style="height: 160px;"></div>
+    <div id="content">
+    <div>
+    </div>
+    <div>
+        {% if user.is_authenticated %}
+            HI {{ user.username }}
+            <p><a href="{% url 'signout' %}">logout</a></p>
+            <p><a href="{% url 'accounts:edit' user.id %}">내 정보 수정하기</a></p>
+        {% else %}
+            <div>
+                <form method="post" action="{% url 'home' %}">
+                    {% csrf_token %}
+                    <p>
+                        <label for="id_username"></label>
+                        <input type="text" name="username" autofocus required id="id_username" placeholder="아이디">
+                    </p>
+                    <p>
+                        <label for="id_password"></label>
+                        <input type="password" name="password" required id="id_password" placeholder="비밀번호">
+                    </p>
+                    <button type="submit">로그인</button>
+                </form>
             </div>
-            <div class="sc-bwzfXH jNpIyI">
-                <div class="row no-gutters" style="height: 50px; width: 100%; position: relative;">
-                    <div style="position: absolute; left: 50%; transform: translateX(-50%);">
-                        <div style="height: 460px; width: 350px; border-radius: 7px; background-color: rgb(255, 255, 255); box-shadow: rgb(196, 196, 196) 0px 0px 50px 0px;"></div>
-                    </div>
-                </div>
             </div>
-            <div class="sc-bwzfXH jNpIyI">
-                <div class="row no-gutters" style="height: 30px;">
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-6" style="position: relative;">
-                        <div style="position: absolute; left: 50%; transform: translateX(-50%);">
-                            <span style='font-size: 30px; font-family: "Cabin Condensed"; font-weight: 700; display: inline-block; color: rgb(243, 189, 39);'>꿀</span>
-                            <span style='font-size: 30px; font-family: "Cabin Condensed"; font-weight: 700; display: inline-block;'>과외</span>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <form method="post" action="{% url 'home' %}">
-                {% csrf_token %}
-                <div class="sc-bwzfXH jNpIyI">
-                    <div class="row no-gutters" style="height: 50px;"></div>
-                </div>
-                <div class="sc-bwzfXH jNpIyI">
-                    <div class="row no-gutters" style="height: 50px;">
-                        <div class="col-sm-3"></div>
-                        <div class="col-sm-6">
-                            <div style="position: relative;">
-                                <div style="width: 300px; height: 40px; background-color: rgb(250, 250, 250); border-radius: 0.375em; position: absolute; left: 50%; transform: translateX(-50%); border-width: 1px; border-color: rgb(231, 231, 231); border-style: solid; padding-left: 5px;">
-                                    <span style='margin-left: 5px; display: block; margin-top: 14px; font-family: "Cabin Condensed"; font-size: 13px; color: rgb(179, 179, 179);'>아이디</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="sc-bwzfXH jNpIyI">
-                    <div class="row no-gutters" style="height: 50px; margin-top: 5px;">
-                        <div class="col-sm-3"></div>
-                        <div class="col-sm-6">
-                            <div style="position: relative;">
-                                <div style="width: 300px; height: 40px; background-color: rgb(250, 250, 250); border-radius: 0.375em; position: absolute; left: 50%; transform: translateX(-50%); border-width: 1px; border-color: rgb(231, 231, 231); border-style: solid; padding-left: 5px;">
-                                    <span style='margin-left: 5px; display: block; margin-top: 14px; font-family: "Cabin Condensed"; font-size: 13px; color: rgb(179, 179, 179);'>비밀번호</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sc-bwzfXH jNpIyI">
-                    <div class="row no-gutters" style="height: 70px;">
-                        <div class="col-sm-3"></div>
-                        <div class="col-sm-6" style="border-radius: 0.375px; position: relative;">
-                            <div style="width: 300px; height: 40px; position: absolute; transform: translateX(-50%); background-color: rgb(243, 189, 39); border-radius: 3px; text-align: center; left: 50%; padding-top: 10px; margin-top: 5px;">
-
-                                <span style='font-size: 18px; font-weight: 500; font-family: "Cabin Condensed"; color: rgb(255, 255, 255); height: 100%;'>로그인</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </form>
-            <div class="sc-bwzfXH jNpIyI">
-                <div class="row no-gutters" style="height: 40px;">
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-6" style="border-radius: 0.375px;">
-                        <div style="width: 100%; height: 100%; text-align: center; padding-top: 10px;">
-                            <span style='font-size: 15px; font-weight: 400; font-family: "Cabin Condensed"; color: rgb(104, 104, 104);'>계정이 없으신가요?</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-3"></div>
-                </div>
-            </div>
-            <div class="sc-bwzfXH jNpIyI">
-                <div class="row no-gutters" style="height: 70px;">
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-6" style="border-radius: 0.375px;">
-                        <div style="position: relative;">
-                            <div style="width: 300px; height: 40px; position: absolute; left: 50%; transform: translateX(-50%); background-color: rgb(243, 189, 39); border-radius: 3px; text-align: center; padding-top: 10px;">
-                                <span style='font-size: 18px; font-weight: 500; font-family: "Cabin Condensed"; color: rgb(255, 255, 255);'>회원가입</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <form method="post" action="{% url 'home' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="login" />
-        </form>
-        <p>아이디가 없으신가요? <a href="{% url 'accounts:signup' %}">회원가입하러가기</a></p>
     {% endif %}
 
 {% endblock %}
