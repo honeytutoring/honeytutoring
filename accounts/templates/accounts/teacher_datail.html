@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    {{ user.first_name }}
+    {{ user.last_name }}
+    {{ user.email }}
+    {{ user.phone_number }}
+    {% if user.is_teacher %}
+    {{ user.teacher.university }}
+    {{ user.teacher.age }}
+    {{ user.teacher.subjects }}
+    {% endif %}
+    {{ user.student.school }}
+    {{ user.student.year }}
+{% endblock %}
