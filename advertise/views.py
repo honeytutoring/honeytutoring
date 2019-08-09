@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
@@ -181,3 +182,9 @@ class AdvertiseDeleteView(DeleteView):
     template_name = 'advertise/post_confirm_delete.html'
     model = Post
     success_url = reverse_lazy('advertise:index')
+
+
+def RegionView(request, *args, **kwargs):
+    region = request.POST.get('region')
+
+    return JsonResponse()
