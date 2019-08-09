@@ -1,5 +1,5 @@
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404,reverse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView, FormView, View
@@ -176,8 +176,16 @@ class AdvertiseUpdateView(UpdateView):
     form_class = UploadFileForm
     success_url = reverse_lazy('advertise:index')
 
+def AdvertiseDelete(request, pk):
+    target = get_object_or_404(Post, pk=pk)
+    target.delete()
+        
+    return HttpResponseRedirect(reverse('advertise:index'))
 
-class AdvertiseDeleteView(DeleteView):
-    template_name = 'advertise/post_confirm_delete.html'
-    model = Post
-    success_url = reverse_lazy('advertise:index')
+
+
+
+# class AdvertiseDeleteView(DeleteView):
+#     template_name = 'advertise/post_confirm_delete.html'
+#     model = Post
+#     success_url = reverse_lazy('advertise:index')
