@@ -28,7 +28,6 @@ urlpatterns = [
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('notice/', include('notice.urls', namespace='notice')),
     path('advertise/', include('advertise.urls', namespace='advertise')),
-    path('management/', include('management.urls', namespace = 'management')),
     path('question/',include('question.urls',namespace='question')),
     path('classes/', include('classes.urls', namespace='classes')),
 ]

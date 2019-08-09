@@ -23,7 +23,8 @@
   </a>
 </p>
 <div class="collapse" id="filterform">
-<form method="get" action="{% url 'advertise:classified' %}" style="width:50%; margin-left:5%">
+<form method="post" action="{% url 'advertise:classified' %}" style="width:50%; margin-left:5%">
+    {% csrf_token %}
   <div class="form-group row">
     <label for="inputname" class="col-sm-2 col-form-label">선생님 이름</label>
     <div class="col-sm-10">
@@ -34,16 +35,16 @@
     <div class="row">
       <legend class="col-form-label col-sm-2 pt-0">선생님 성별</legend>
       <div class="col-sm-10">
-        <div name = "sex[]" class="form-check">
-          <input class="form-check-input" type="checkbox" id="gridcheckbox1" value="man">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="gridcheckbox1" name = "sex" value="남성">
           <label class="form-check-label" for="gridcheckbox1">
-            남
+            남성
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="gridcheckbox2" value="woman">
+          <input class="form-check-input" type="checkbox" id="gridcheckbox2" name = "sex" value="여성">
           <label class="form-check-label" for="gridcheckbox2">
-            여
+            여성
           </label>
         </div>
       </div>
@@ -66,8 +67,8 @@
       <label for="inputState">수강 지역[도, 특별(광역)시]</label>
       <select name="region_1" id="inputState" class="custom-select my-1 mr-sm-2">
         <option selected>선택 없음</option>
-      {% for region in region %}
-        <option value="{{ region }}">{{region}}</option>
+      {% for regions in regions %}
+        <option value="{{ regions }}">{{regions}}</option>
       {% endfor %}
       </select>
     </div>
@@ -76,7 +77,7 @@
       <label for="inputCountry">수강 지역[구, 시]</label>
       <select name="region_2" id="inputCountry" class="custom-select my-1 mr-sm-2">
         <option selected>선택 없음</option>
-        {% for classified_regions in region.classified_region.all%}
+        {% for classified_regions in regions.classified_region.all%}
         <option value="{{ classified_regions }}">{{ classified_regions }}</option>
         {% endfor %}
       </select>
@@ -93,24 +94,25 @@
 
 
 <p>
+{%if query %}
 {% if context %}
     {% for list in context %}
         <li><a href="{% url 'advertise:detail' list.id%}">{{ list.title }}{{ list.author }}{{ list.created_date }}</a></li>
     {% endfor %}
 {% else %}
-<p>검색 결과가 없습니다.</p>
-{% endif %}
+    <p>검색 결과가 없습니다.</p>
+{%endif%}
+{%endif%}
 </p>
 
-
-<p>
+<p>전체글 목록
     {%if object_list%}
-    {% for post in post_list %}
+    {% for post in object_list %}
         <li><a href="{% url 'advertise:detail' post.id%}">{{ post.title }}{{ post.author }}{{ post.created_date }}</a></li>
     {% endfor %}
     {%else%}
     <p>등록된 글이 없습니다.</p>
-    {% endif %} 
+    {% endif %}  
 </p>
 
 <p><a href ="{% url 'advertise:create' %}">등록하기</a> </p>

@@ -10,5 +10,5 @@ urlpatterns = [
     path('create/', AdvertiseCreateView.as_view(), name='create'),
     path('<int:pk>/update/', AdvertiseUpdateView.as_view(), name='update'),
     path('<int:pk>/delete/', AdvertiseDeleteView.as_view(), name='delete'),
-    path('condition/', ClassifiedIndexView.as_view(), name='classified')
+    path('condition/', ClassifiedIndexView.as_view(), name='classified'),
 ]

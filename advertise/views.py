@@ -19,7 +19,7 @@ class AdvertiseIndexView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(AdvertiseIndexView, self).get_context_data(object_list=object_list, **kwargs)
         context['user_sex_option'] = Users.GENDER_OPTION
-        context['region'] = Region.objects.all()
+        context['regions'] = Region.objects.all()
 
         return context
 
@@ -50,12 +50,16 @@ class ClassifiedIndexView(View):
     model = Post
     # context_object_name = 'filter_list'
 
-    def get(self, form):
-        author = self.request.GET.get('name')
-        subject = self.request.GET.get('subject')
-        region = self.request.GET.get('region_1')
-        classified_region_name = self.request.GET.get('region_2')
-        sex = self.request.GET.getlist('sex')
+    def post(self, form):
+        query = "ok"
+        author = self.request.POST.get('name')
+        subject = self.request.POST.get('subject')
+        region = self.request.POST.get('region_1')
+        classified_region_name = self.request.POST.get('region_2')
+        sex = self.request.POST.getlist('sex')
+        name = list(author)
+        query_name1 = "".join(name[1:])
+        query_name2 = "".join(name[2:])
         # queryset = super(ClassifiedIndexView, self).get_queryset()
         
         #qlist = [author, subject, region, classified_region_name]
@@ -78,34 +82,50 @@ class ClassifiedIndexView(View):
                 context = Post.objects.filter(subject__subject_title=subject, region__area=region)
             else:
                 context = Post.objects.filter(subject__subject_title=subject, region__area=region, classifiedregion__classified_region =classified_region_name)
-            
+        
+        elif query_name1 == '':
+            context = None
+
         else:
+        
             if subject == "선택 없음":
                 if region == "선택 없음":
-                    context = Post.objects.filter(author__=author)
+                    context = Post.objects.filter(Q(author__first_name__icontains=query_name1) or Q(author__first_name__icontains=query_name2))
                 elif classified_region_name == "선택 없음":
-                    context = Post.objects.filter(post__author=author, region__area=region)
+                    context = Post.objects.filter(Q(author__first_name__icontains=query_name1) or Q(author__first_name__icontains=query_name2) ,region__area=region)
                 else:
-                    context = Post.objects.filter(post__author=author, region__area=region, classifiedregion__classified_region =classified_region_name)
+                    context = Post.objects.filter(Q(author__first_name__icontains=query_name1) or Q(author__first_name__icontains=query_name2), region__area=region, classifiedregion__classified_region =classified_region_name)
             elif region == "선택 없음":
-                context = Post.objects.filter(post__author=author,subject__subject_title=subject)
+                context = Post.objects.filter(Q(author__first_name__icontains=query_name1) or Q(author__first_name__icontains=query_name2) , subject__subject_title=subject)
             elif classified_region_name == "선택 없음":
-                context = Post.objects.filter(post__author=author, subject__subject_title=subject, region__area=region)
+                context = Post.objects.filter(Q(author__first_name__icontains=query_name1) or Q(author__first_name__icontains=query_name2) , subject__subject_title=subject, region__area=region)
             else:
-                context = Post.objects.filter(post__author=author, subject__subject_title=subject, region__area=region, classifiedregion__classified_region =classified_region_name)
+                context = Post.objects.filter(Q(author__first_name__icontains=query_name1) or Q(author__first_name__icontains=query_name2) , subject__subject_title=subject, region__area=region, classifiedregion__classified_region =classified_region_name)
 
 
         if len(sex) == 2 or len(sex) == 0:
-            context={'context':context}
+            context = {'context': context,
+                        'regions': Region.objects.all(),
+                        'object_list': Post.objects.all(),
+                        'query': query
+            }
             return render(self.request, self.template_name, context)        
         else:
-            if sex(1) == None:
-                context = context.filter(post__sex__exact=sex(1))
-                context={'context':context}
+            if sex[0] == "여성":
+                context = context.filter(author__sex=1)
+                context = {'context': context,
+                'regions': Region.objects.all(),
+                'object_list': Post.objects.all(),
+                'query':query
+            }
                 return render(self.request, self.template_name, context)
-            else:
-                context = context.filter(post__sex__exact=sex(2))
-                context={'context':context}
+            elif sex[0] == "남성":
+                context = context.filter(author__sex=0)
+                context = {'context': context,
+                'regions': Region.objects.all(),
+                'object_list': Post.objects.all(),
+                'query':query
+            }
                 return render(self.request, self.template_name, context)
 
 
