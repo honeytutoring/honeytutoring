@@ -29,6 +29,20 @@
             </div>
         </div>
 
+        <div class="field-input">
+            <label class="col-md=3">부모님 ID</label>
+            <input class="col-md-9" type="text" maxlength="150" id="parentNameInput">
+            <button id="searchParentName" type="button">확인</button>
+            <div id="parentFormWrapper">
+
+            </div>
+            <div id="parentForm" style="display: none">
+                <input readonly class="parent-name-input">
+                <input class="parent-id-input" name="parents" style="visibility: hidden;">
+                <button id="parent-delete-btn" type="button">삭제</button>
+            </div>
+        </div>
+
 {#        <div class="field-input">#}
 {#            <label class="col-md-3" for="id_parent_id">학부모 ID</label> <input class="col-md-9" type="text" name="parent_id" required="" id="id_parent_id">#}
 {#        </div>#}
@@ -70,6 +84,9 @@
                 });
             });
         });
+    </script>
+    <script type="text/javascript">
+
     </script>
 
 {% endblock %}
