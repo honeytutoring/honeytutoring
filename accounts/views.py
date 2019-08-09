@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from .forms import CreateUserForm, TeacherForm, StudentForm, ParentForm
+from .forms import CreateUserForm, TeacherForm, StudentForm
 from .models import Users
 from django.contrib.auth import login as auth_login
 
