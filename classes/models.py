@@ -4,6 +4,7 @@ from django.db import models
 class Class(models.Model):
     class_teacher = models.ForeignKey('accounts.Teacher', on_delete=models.CASCADE, related_name='classes', null=True)
     students = models.ManyToManyField('accounts.Student', related_name='classes')
+    parents = models.ManyToManyField('accounts.Parent', related_name='classes')
     class_name = models.CharField(max_length=100)
     description = models.CharField(max_length=200)
     subject = models.CharField(max_length=5)

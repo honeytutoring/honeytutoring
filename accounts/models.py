@@ -44,10 +44,7 @@ class Student(models.Model):
     def __str__(self):
         return self.user.first_name
 
-#
-# class Parent(models.Model):
-#     user = models.OneToOneField('accounts.Users', on_delete=models.CASCADE, related_name='parent')
-#     student = models.OneToOneField('accounts.Student', on_delete=models.CASCADE, related_name='student')
-#
-#     def __str__(self):
-#         return
+
+class Parent(models.Model):
+    user = models.OneToOneField('accounts.Users', on_delete=models.CASCADE, related_name='parent')
+    student = models.OneToOneField('accounts.Student', on_delete=models.CASCADE, related_name='student')

@@ -121,4 +121,4 @@ config/
 log/
 *.pyc
 .static_root/
-
+000*
