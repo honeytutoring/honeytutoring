@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'advertise.apps.AdvertiseConfig',
     'classes.apps.ManagementConfig',
     'region.apps.RegionConfig',
+    'pure_pagination',
  ]
 
 MIDDLEWARE = [
@@ -104,6 +105,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 10,
+    'MARGIN_PAGES_DISPLAYED': 2,
+
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

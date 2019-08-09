@@ -6,4 +6,8 @@
     {% for class in object_list.all %}
         <li><a href="{% url 'classes:detail' class.id %}">{{ class.class_name }}</a></li>
     {% endfor %}
+
+
+    {% include "classes/class_pagination.html" %}
+
 {% endblock %}

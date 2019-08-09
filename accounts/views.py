@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from .forms import CreateUserForm, TeacherForm, StudentForm
 from .models import Users
@@ -65,3 +65,10 @@ class CreateStudentView(CreateView):
         kwargs = super(CreateStudentView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+
+class TeacherDetailView(DetailView):
+    template_name = 'accounts/teacher_datail.html'
+    model = Users
+    context_object_name = 'user'
+
