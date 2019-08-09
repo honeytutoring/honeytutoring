@@ -10,9 +10,9 @@
 
 {%if object_list%}
     {% for search in object_list %}
-        <li><a href="{% url 'advertise:detail' search.id%}">{{search.title}}{{ search.user.username }}{{ search.create_date }}</a></li>
+        <li><a href="{% url 'advertise:detail' search.id%}">{{search.title}}</a></li>
+        <li><a href="{% url 'accounts:teacher_datail' search.author.id %}">{{ search.author }}</a></li>
     {% endfor %}
 {% else %}
     <p>검색 결과가 없습니다.</p>
 {% endif %}
-
