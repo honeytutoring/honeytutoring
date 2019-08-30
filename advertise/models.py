@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from accounts.models import Users
+from accounts.models import User
 from django.shortcuts import reverse
 
 
@@ -12,7 +12,7 @@ class Subject(models.Model):
 
 
 class Post(models.Model):
-    author = models.ForeignKey('accounts.Users', on_delete=models.CASCADE, null=True, related_name='posts')
+    author = models.ForeignKey('accounts.User', on_delete=models.CASCADE, null=True, related_name='posts')
     objects = models.Manager()
     title = models.CharField(max_length=30)
     region = models.ForeignKey('region.Region', on_delete=models.CASCADE, default='')

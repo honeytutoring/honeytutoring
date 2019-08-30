@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate
 
-from accounts.models import Users, Teacher, Student
+from accounts.models import User, Teacher, Student
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
@@ -9,7 +9,7 @@ class CreateUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
-        model = Users
+        model = User
         fields = (
             'username',
             'first_name',

@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from .forms import CreateUserForm, TeacherForm, StudentForm
-from .models import Users
+from .models import User
 from django.contrib.auth import login as auth_login
 
 
@@ -26,9 +26,9 @@ class CreateUserView(CreateView):
 
     def get_success_url(self):
         user_type = self.request.POST.get('user_type')
-        if user_type == str(Users.USER_TEACHER):
+        if user_type == str(User.USER_TEACHER):
             return reverse_lazy('accounts:teacher')
-        elif user_type == str(Users.USER_STUDENT):
+        elif user_type == str(User.USER_STUDENT):
             return reverse_lazy('accounts:student')
 
     def form_valid(self, form):
@@ -44,7 +44,7 @@ class CreateDoneUserView(TemplateView):
 class UpdateUserView(UpdateView):
     template_name = 'accounts/account_update.html'
     form_class = CreateUserForm
-    model = Users
+    model = User
     success_url = reverse_lazy('home')
 
 
@@ -72,5 +72,5 @@ class CreateStudentView(CreateView):
 
 class TeacherDetailView(DetailView):
     template_name = 'accounts/teacher_datail.html'
-    model = Users
+    model = User
     context_object_name = 'user'

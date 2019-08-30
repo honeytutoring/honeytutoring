@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class Users(AbstractUser):
+class User(AbstractUser):
     email = models.EmailField(blank=True)
     phone_number = models.CharField(max_length=11, blank=True)
     GENDER_MAIL, GENDER_FEMAIL = 0, 1
@@ -23,11 +23,14 @@ class Users(AbstractUser):
         swappable = 'AUTH_USER_MODEL'
 
     def is_teacher(self):
-        return hasattr(self, 'teacher') and self.user_type == Users.USER_TEACHER
+        return hasattr(self, 'teacher') and self.user_type == User.USER_TEACHER
+
+    def is_student(self):
+        return hasattr(self, 'student') and self.user_type == User.USER_STUDENT
 
 
 class Teacher(models.Model):
-    user = models.OneToOneField('accounts.Users', on_delete=models.CASCADE, related_name='teacher')
+    user = models.OneToOneField('accounts.User', on_delete=models.CASCADE, related_name='teacher')
     university = models.CharField(max_length=20)
     subjects = models.CharField(max_length=20)
     age = models.PositiveSmallIntegerField(default=0)
@@ -37,10 +40,9 @@ class Teacher(models.Model):
 
 
 class Student(models.Model):
-    user = models.OneToOneField('accounts.Users', on_delete=models.CASCADE, related_name='student')
+    user = models.OneToOneField('accounts.User', on_delete=models.CASCADE, related_name='student')
     school = models.CharField(max_length=15)
     year = models.CharField(max_length=5)
 
     def __str__(self):
         return self.user.first_name
-

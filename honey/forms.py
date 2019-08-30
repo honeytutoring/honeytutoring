@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
-from accounts.models import Users
+from accounts.models import User
 
 
 class CostomizedAutenticationForm(AuthenticationForm):
@@ -9,7 +9,7 @@ class CostomizedAutenticationForm(AuthenticationForm):
     def clean(self):
         username = self.cleaned_data.get("username")
         password = self.cleaned_data.get("password")
-        user_qs = Users.objects.filter(username=username)
+        user_qs = User.objects.filter(username=username)
         if user_qs.count() == 0:
             raise forms.ValidationError("The user does not exist")
         else:

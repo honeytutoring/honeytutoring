@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from django.contrib import messages
-from accounts.models import Users
+from accounts.models import User
 from .forms import *
 from .models import *
 from pure_pagination.mixins import PaginationMixin
@@ -17,10 +17,10 @@ class ClassesListView(PaginationMixin, ListView):
 
     def get_queryset(self):
         queryset = super(ClassesListView, self).get_queryset()
-        if Users.USER_TEACHER == self.request.user.user_type:
+        if User.USER_TEACHER == self.request.user.user_type:
             teacher_classes = self.request.user.teacher.classes.all()
             return teacher_classes
-        elif Users.USER_STUDENT == self.request.user.user_type:
+        elif User.USER_STUDENT == self.request.user.user_type:
             student_classes = self.request.user.student.classes.all()
             return student_classes
         # elif Users.USER_PARENT == self.request.user.user_type:
@@ -130,7 +130,7 @@ class MemoDeleteView(DeleteView):
 @csrf_exempt
 def StudentIdCheck(request, *args, **kwargs):
     user_name = request.GET.get('name')
-    student_user = get_object_or_404(Users, username=user_name)
+    student_user = get_object_or_404(User, username=user_name)
 
     if hasattr(student_user, 'student'):
         return JsonResponse({'student_id': student_user.student.id})

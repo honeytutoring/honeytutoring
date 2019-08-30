@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView, FormView, View
-from accounts.models import Users
+from accounts.models import User
 from region.models import Region
 from .forms import UploadFileForm, PostSearchForm
 from .models import Post
@@ -20,7 +20,7 @@ class AdvertiseIndexView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(AdvertiseIndexView, self).get_context_data(object_list=object_list, **kwargs)
-        context['user_sex_option'] = Users.GENDER_OPTION
+        context['user_sex_option'] = User.GENDER_OPTION
         context['regions'] = Region.objects.all()
 
         return context

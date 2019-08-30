@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'classes.apps.ManagementConfig',
     'region.apps.RegionConfig',
     'pure_pagination',
+    'university.apps.UniversityConfig',
  ]
 
 MIDDLEWARE = [
